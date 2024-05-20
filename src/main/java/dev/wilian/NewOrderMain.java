@@ -1,5 +1,6 @@
 package dev.wilian;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -13,16 +14,21 @@ public class NewOrderMain {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties());
 
-        String value = "key 4, value 4";
-        ProducerRecord<String, String> record = new ProducerRecord<>("NEW_ORDER", value, value);
-
-        producer.send(record, (res, ex) -> {
+        Callback callback = (res, ex) -> {
             if (ex != null) {
                 ex.printStackTrace();
                 return;
             }
             System.out.printf("Topic::" + res.topic() + "\nParticion/" + res.partition() + "\nOffset/" + res.offset() + "\nTimestamp/" + res.timestamp());
-        }).get();
+        };
+
+        String value = "key 4, value 4";
+        ProducerRecord<String, String> recordNewOrder = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", value, value);
+        producer.send(recordNewOrder, callback).get();
+
+        var email = "key@email, value@email";
+        ProducerRecord<String, String> recordSendEmail = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", email, email);
+        producer.send(recordSendEmail, callback).get();
     }
 
     private static Properties properties() {

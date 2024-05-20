@@ -9,19 +9,18 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-public class FraudDetectorServer {
-
+public class EmailService {
     public static void main(String[] args) {
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties());
 
-        consumer.subscribe(Collections.singleton("ECOMMERCE_NEW_ORDER"));
+        consumer.subscribe(Collections.singleton("ECOMMERCE_SEND_EMAIL"));
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(500));
             if (records.isEmpty()) {
                 continue;
             }
             if (!records.isEmpty()) {
-                System.out.println("Processing new order, checking for fraud");
+                System.out.println("Thanks for your order, we're processing your order");
                 records.forEach(record -> {
                     System.out.println("---------------------------------");
                     System.out.println("Key: " + record.key());
