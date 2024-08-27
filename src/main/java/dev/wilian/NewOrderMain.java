@@ -7,6 +7,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class NewOrderMain {
@@ -22,8 +23,9 @@ public class NewOrderMain {
             System.out.printf("Topic::" + res.topic() + "\nParticion/" + res.partition() + "\nOffset/" + res.offset() + "\nTimestamp/" + res.timestamp());
         };
 
-        String value = "key 4, value 4";
-        ProducerRecord<String, String> recordNewOrder = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", value, value);
+        String value = "value";
+        String key = UUID.randomUUID().toString();
+        ProducerRecord<String, String> recordNewOrder = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);
         producer.send(recordNewOrder, callback).get();
 
         var email = "key@email, value@email";
