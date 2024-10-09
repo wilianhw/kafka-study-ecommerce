@@ -23,14 +23,16 @@ public class NewOrderMain {
             System.out.printf("Topic::" + res.topic() + "\nParticion/" + res.partition() + "\nOffset/" + res.offset() + "\nTimestamp/" + res.timestamp());
         };
 
-        String value = "value";
-        String key = UUID.randomUUID().toString();
-        ProducerRecord<String, String> recordNewOrder = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);
-        producer.send(recordNewOrder, callback).get();
+        for (int i = 0; i < 10; i++) {
+            String value = "value";
+            String key = UUID.randomUUID().toString();
+            ProducerRecord<String, String> recordNewOrder = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);
+            producer.send(recordNewOrder, callback).get();
 
-        var email = "key@email, value@email";
-        ProducerRecord<String, String> recordSendEmail = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", email, email);
-        producer.send(recordSendEmail, callback).get();
+            var email = "key@email, value@email";
+            ProducerRecord<String, String> recordSendEmail = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", email, email);
+            producer.send(recordSendEmail, callback).get();
+        }
     }
 
     private static Properties properties() {

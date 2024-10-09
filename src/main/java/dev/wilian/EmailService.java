@@ -5,7 +5,11 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 public class EmailService {
     public static void main(String[] args) {
         EmailService emailService = new EmailService();
-        var kafkaService = new KafkaService("ECOMMERCE_SEND_EMAIL", emailService::parse);
+        var kafkaService = new KafkaService(
+                EmailService.class.getSimpleName(),
+                "ECOMMERCE_SEND_EMAIL",
+                emailService::parse
+        );
         kafkaService.run();
 
 
@@ -19,5 +23,10 @@ public class EmailService {
         System.out.println("Partition: " + record.partition());
         System.out.println("Offset: " + record.offset());
         System.out.println("Timestamp: " + record.timestamp());
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
