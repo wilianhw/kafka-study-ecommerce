@@ -2,6 +2,8 @@ package dev.wilian;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.Map;
+
 public class EmailService {
     public static void main(String[] args) {
         EmailService emailService = new EmailService();
@@ -9,7 +11,8 @@ public class EmailService {
                 EmailService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
                 emailService::parse,
-                Email.class
+                Email.class,
+                Map.of()
         )) {
             kafkaService.run();
         }

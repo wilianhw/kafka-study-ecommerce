@@ -7,4 +7,9 @@ public class Email {
         this.subject = subject;
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Subject: %s - Body: %s", subject, body);
+    }
 }

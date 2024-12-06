@@ -2,6 +2,8 @@ package dev.wilian;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.Map;
+
 public class FraudDetectorServer {
 
     public static void main(String[] args) {
@@ -10,7 +12,8 @@ public class FraudDetectorServer {
                 FraudDetectorServer.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
                 fraudDetectorServer::parse,
-                Order.class
+                Order.class,
+                Map.of()
         )) {
             kafkaService.run();
         }
